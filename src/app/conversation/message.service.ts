@@ -8,7 +8,7 @@ import {
   HttpResponse
 } from "@angular/common/http";
 import {Message} from "./message";
-import {catchError, filter, map, Observable} from "rxjs";
+import {catchError, filter, map, Observable, startWith} from "rxjs";
 import {Language} from "../morph/morph.component";
 import {ErrorService} from "../error.service";
 import {environment} from "../../environments/environment.development";
@@ -111,7 +111,13 @@ export class MessageService {
                 fromUser: false,
                 generating: false,
               }
-        )
+        ),
+        startWith({
+          id,
+          text: '',
+          fromUser: false,
+          generating: true
+        })
       );
   }
 
