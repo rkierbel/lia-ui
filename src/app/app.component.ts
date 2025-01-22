@@ -1,4 +1,4 @@
-import {Component, computed, effect, inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, computed, effect, inject, OnDestroy} from '@angular/core';
 import {MessageService} from "./conversation/message.service";
 import {FormsModule, NgForm} from "@angular/forms";
 import {NgClass, NgIf} from "@angular/common";
@@ -6,8 +6,6 @@ import {v4 as uuidv4} from 'uuid';
 import {Language, MorphComponent} from "./morph/morph.component";
 import {MarkdownPipe} from "./markdown.pipe";
 import {ErrorComponent} from "./error/error.component";
-import {TranslocoService} from "@jsverse/transloco";
-import {environment} from "../environments/environment.development";
 
 @Component({
   selector: 'app-root',
@@ -49,21 +47,14 @@ import {environment} from "../environments/environment.development";
     }
   `,
 })
-export class AppComponent implements OnDestroy, OnInit {
+export class AppComponent implements OnDestroy {
   private readonly messageService = inject(MessageService);
-  private readonly i18nService = inject(TranslocoService);
   readonly threadId = this.messageService.threadId;
 
   readonly messages = this.messageService.messages;
   readonly generatingInProgress = this.messageService.generatingInProgress;
 
   protected readonly showStartScreen = computed(() => this.messageService.isFirstVisit());
-
-  ngOnInit() {
-    this.i18nService.load(`${environment.baseUrl}/assets/i18n/en.json`)
-    this.i18nService.load(`${environment.baseUrl}/assets/i18n/fr.json`)
-    this.i18nService.load(`${environment.baseUrl}/assets/i18n/nl.json`)
-  }
 
   private readonly scrollEffect = effect(() => {
     // run this effect on every `messages` change

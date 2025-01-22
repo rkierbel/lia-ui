@@ -7,7 +7,7 @@ import {
   HttpEventType,
   HttpResponse
 } from "@angular/common/http";
-import {Message} from "./message";
+import {Message} from "../interface/message";
 import {catchError, filter, map, Observable, startWith} from "rxjs";
 import {Language} from "../morph/morph.component";
 import {ErrorService} from "../error.service";
@@ -128,24 +128,24 @@ export class MessageService {
   private transformError(error: HttpErrorResponse): Error {
     switch (error.status) {
       case 400:
-        return new Error('errors.invalid_request');
+        return new Error('invalid_request');
       case 401:
-        return new Error('errors.unauthorized');
+        return new Error('unauthorized');
       case 403:
-        return new Error('errors.forbidden');
+        return new Error('forbidden');
       case 404:
-        return new Error('errors.not_found');
+        return new Error('not_found');
       case 429:
-        return new Error('errors.too_many_requests');
+        return new Error('too_many_requests');
       case 500:
-        return new Error('errors.server_error');
+        return new Error('server_error');
       default:
-        return new Error('errors.unexpected');
+        return new Error('unexpected');
     }
   }
 
   private handleError(error: any): void {
-    const messageKey = error?.message || 'errors.unexpected';
+    const messageKey = error?.message || 'unexpected';
     this.errorService.showError(messageKey);
   }
 }

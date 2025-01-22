@@ -1,13 +1,14 @@
 import {Component, EventEmitter, inject, Output} from "@angular/core";
 import anime from "animejs";
-import {TranslocoModule, TranslocoService} from "@jsverse/transloco";
+import {TranslocoService} from "@jsverse/transloco";
+import {LanguageService} from "../language.service";
 
 export type Language = 'en' | 'fr' | 'nl';
 
 @Component({
   selector: 'app-morph',
   standalone: true,
-  imports: [TranslocoModule],
+  imports: [],
   template: `
     <div class="morph-container">
       <div class="buttons-container">
@@ -70,7 +71,7 @@ export type Language = 'en' | 'fr' | 'nl';
 })
 export class MorphComponent {
   @Output() start = new EventEmitter<Language>();
-  private readonly i18nService = inject(TranslocoService);
+  private readonly langService = inject(LanguageService);
 
   constructor() {
     // Add click handlers to all morph elements
@@ -80,7 +81,7 @@ export class MorphComponent {
         element.addEventListener('click', (event) => {
           const target = event.currentTarget as HTMLElement;
           const language = target.dataset["lang"] as Language;
-          this.i18nService.setActiveLang(language);
+          this.langService.setActiveLang(language);
           const buttonIndex = parseInt(target.dataset["index"] || '0');
           this.startMorph(buttonIndex, language);
         });

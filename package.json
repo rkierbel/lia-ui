@@ -20,7 +20,6 @@
     "@angular/platform-browser": "^17.3.0",
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
-    "@jsverse/transloco": "^7.5.1",
     "@types/marked": "^5.0.2",
     "animejs": "^3.2.2",
     "marked": "^15.0.6",

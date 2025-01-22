@@ -1,19 +1,19 @@
 import {Component, inject} from '@angular/core';
 import {ErrorService} from "../error.service";
-import {TranslocoDirective, TranslocoPipe} from "@jsverse/transloco";
+import {LanguageService} from "../language.service";
+import {ErrorType} from "../interface/error";
 
 @Component({
   selector: 'app-error',
   standalone: true,
-  imports: [TranslocoDirective, TranslocoPipe],
   template: `
     @if (errorService.error(); as error) {
-      @if (error.show) {
+      @if (error.show && error.messageKey) {
         <div class="error-overlay">
           <div class="error-modal" role="alertdialog" aria-modal="true">
             <div class="error-content">
               <div class="error-icon">⚠️</div>
-              <p>{{ error.messageKey | transloco }}</p>
+              <p>{{ this.translateError(error.messageKey) }}</p>
               <button
                 (click)="errorService.hideError()"
                 aria-label="Close error message"
@@ -98,4 +98,10 @@ import {TranslocoDirective, TranslocoPipe} from "@jsverse/transloco";
 })
 export class ErrorComponent {
   protected readonly errorService = inject(ErrorService);
+  readonly langService = inject(LanguageService);
+
+  translateError(messageKey: ErrorType): string {
+    const activeLang = this.langService.getActiveLang();
+    return this.langService.getTranslatedError(activeLang, messageKey);
+  }
 }
