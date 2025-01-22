@@ -1,6 +1,5 @@
 import {Component, EventEmitter, inject, Output} from "@angular/core";
 import anime from "animejs";
-import {TranslocoService} from "@jsverse/transloco";
 import {LanguageService} from "../language.service";
 
 export type Language = 'en' | 'fr' | 'nl';
