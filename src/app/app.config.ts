@@ -10,7 +10,6 @@ import { provideTransloco } from '@jsverse/transloco';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideClientHydration(),
     provideAnimationsAsync(),
     provideHttpClient(withFetch()),
     provideHttpClient(),
