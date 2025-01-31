@@ -8,7 +8,7 @@ import {
   HttpResponse
 } from "@angular/common/http";
 import {Message} from "../interface/message";
-import {catchError, filter, map, Observable, startWith} from "rxjs";
+import {catchError, filter, map, Observable, retry, startWith} from "rxjs";
 import {Language} from "../morph/morph.component";
 import {ErrorService} from "../error.service";
 import {environment} from "../../environments/environment.development";
@@ -85,6 +85,11 @@ export class MessageService {
         withCredentials: false
       })
       .pipe(
+        retry({
+          count: 3,
+          delay: 1000,
+          resetOnSuccess: true
+        }),
         catchError((error: HttpErrorResponse) => {
           this.hasError = true;
           this._generatingInProgress.set(false);
