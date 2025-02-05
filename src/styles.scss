@@ -1,8 +1,8 @@
 :root {
   --font-family: system-ui, sans-serif;
   --padding: 0.5rem 0.75rem;
-  --color: #555;
-  --background: #F5ECD5;
+  --color: #EDE8F5;
+  --background: #455d7a;
 }
 
 html,
@@ -37,42 +37,44 @@ form {
   display: flex;
   gap: 0.5rem;
   padding: 0.5rem;
-  background: #F7F9FB;
-  border-top: 1px solid #3D52A0;
+  background: #233142;
+  border-top: 1px solid #041122;
   box-sizing: border-box;
-  box-shadow: 0 -1px 4px #ADBBDA;
+  box-shadow: 0 -1px 4px #041122;
   z-index: 10;
 
   input {
     flex-grow: 1;
     padding: var(--padding);
-    border: 1.5px solid #3D52A0;
+    border: 1.5px solid #041122;
     border-radius: 0.5rem;
     font-size: 1rem;
+    color: var(--color);
     outline: none;
-    background: #F7F9FB;
+    background: #233142;
     transition: all 0.2s ease;
 
     &:focus {
-      border-color: #3D52A0;
-      box-shadow: 0 0 0 2px rgba(30, 144, 255, 0.1);
+      border-color: var(--color);
+      box-shadow: 0 0 0 2px var(--color);
     }
   }
 
 
 
   button {
-    background: #3D52A0;
-    color: white;
+    background: var(--color);
+    color: #041122;
     border: none;
     border-radius: 0.5rem;
     padding: var(--padding);
     font-size: 1rem;
+    font-weight: bold;
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover:not(:disabled) {
-      background: #7091E6;
+      background: #b6f7c1;
       transform: translateY(-1px);
     }
 
@@ -90,13 +92,14 @@ form {
 .message {
   width: max-content;
   max-width: 70%;
-  background: #F7F9FB;
+  background: #233142;
   padding: var(--padding);
+  color: var(--color);
   border-radius: 1rem;
   white-space: wrap;
   font-family: var(--font-family), sans-serif;
   margin: 0.5rem 0;
-  box-shadow: 0 2px 6px #ADBBDA;
+  box-shadow: 0 2px 6px #041122;
   line-height: 1.4;
 
   &:first-of-type {
@@ -105,8 +108,8 @@ form {
 
   &.from-user {
     margin-left: auto;
-    background: #3D52A0;
-    color: #EDE8F5;
+    background: #041122;
+    color: var(--color);
     border-bottom-right-radius: 0.25rem;
 
     code {
@@ -119,11 +122,11 @@ form {
 
     blockquote {
       border-left-color: rgba(255, 255, 255, 0.4);
-      color: #EDE8F5;
+      color: var(--color);
     }
 
     a {
-      color: #EDE8F5;
+      color: var(--color);
       text-decoration: underline;
     }
   }
@@ -182,7 +185,7 @@ form {
   }
 
   a {
-    color: #3D52A0;
+    color: #041122;
     text-decoration: none;
 
     &:hover {
