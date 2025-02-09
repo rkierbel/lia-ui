@@ -45,7 +45,8 @@ export type Language = 'en' | 'fr' | 'nl';
     .morph-element {
       width: 120px;
       height: 120px;
-      background-color: #7091E6;
+      box-shadow: 0 1px 3px #EDE8F5;
+      background-color: #083d56;
       border-radius: 50%;
       display: flex;
       justify-content: center;
@@ -55,7 +56,7 @@ export type Language = 'en' | 'fr' | 'nl';
     }
 
     .morph-element:hover {
-      background-color: #3D52A0;
+      background-color: #041122;
       transform: scale(1.05);
     }
 
@@ -91,7 +92,7 @@ export class MorphComponent {
   startMorph(buttonIndex: number, language: Language): void {
     const timeline = anime.timeline({
       easing: 'easeInOutSine',
-      duration: 1500
+      duration: 750
     });
 
     // Fade out all texts
@@ -99,7 +100,7 @@ export class MorphComponent {
       targets: '.start-text',
       opacity: 0,
       scale: 0.9,
-      duration: 400,
+      duration: 200,
       easing: 'easeOutSine'
     })
       // Fade out non-selected buttons
@@ -107,7 +108,7 @@ export class MorphComponent {
         targets: `.morph-element:not([data-index="${buttonIndex}"])`,
         opacity: 0,
         scale: 0.8,
-        duration: 400,
+        duration: 200,
         easing: 'easeOutSine'
       }, '-=400')
       // Expand the selected button
@@ -122,7 +123,7 @@ export class MorphComponent {
         }],
         backgroundColor: {
           value: 'rgb(235, 244, 255)',
-          duration: 2000,
+          duration: 1000,
           easing: 'easeOutQuad'
         }
       }, '-=200')
