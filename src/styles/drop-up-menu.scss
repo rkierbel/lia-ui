@@ -47,11 +47,11 @@
 
     a {
       display: block;
-      padding: 5px;
+      padding: 1px;
       color: #222;
 
       &:hover {
-        background: lighten(desaturate(navy,80%),40);
+        background: #041122;
         color: #fff;
       }
     }
