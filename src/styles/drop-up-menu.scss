@@ -1,0 +1,91 @@
+.drop-up-container {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  height: 110px;
+  width: 50px;
+  z-index: 1000;
+}
+
+.drop-up-menu {
+  background: #fff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 9px 4px rgba(#000, .1), 0 -5px 2px 2px rgba(#000, .1);
+  border: none;
+  cursor: pointer;
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.export-menu {
+  position: absolute;
+  bottom: 60px;
+  right: 0;
+  margin: 0;
+  padding: 10px;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(#000, .15);
+  display: none;
+  z-index: 1001;
+
+  li {
+    list-style: none;
+    white-space: nowrap;
+    cursor: pointer;
+
+    a {
+      display: block;
+      padding: 5px;
+      color: #222;
+
+      &:hover {
+        background: lighten(desaturate(navy,80%),40);
+        color: #fff;
+      }
+    }
+  }
+}
+
+.drop-up-container:hover .export-menu,
+.export-menu:hover {
+  display: block;
+  animation: fadeInUp .3s ease;
+}
+
+.drop-up-container:not(:hover) .export-menu {
+  display: none;
+  animation: fadeOutDown .3s ease;
+}
+
+@keyframes fadeOutDown {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 20%, 0);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 20%, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
