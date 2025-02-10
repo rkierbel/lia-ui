@@ -45,7 +45,7 @@ export type Language = 'en' | 'fr' | 'nl';
     .morph-element {
       width: 120px;
       height: 120px;
-      box-shadow: 0 1px 3px #EDE8F5;
+      box-shadow: 0 1px 3px #041122;
       background-color: #083d56;
       border-radius: 50%;
       display: flex;
@@ -122,7 +122,7 @@ export class MorphComponent {
           ) * 1.2
         }],
         backgroundColor: {
-          value: 'rgb(235, 244, 255)',
+          value: '#041122',
           duration: 1000,
           easing: 'easeOutQuad'
         }
