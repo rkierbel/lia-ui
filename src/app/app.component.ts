@@ -4,8 +4,9 @@ import {FormsModule, NgForm} from "@angular/forms";
 import {NgClass, NgIf} from "@angular/common";
 import {v4 as uuidv4} from 'uuid';
 import {Language, MorphComponent} from "./morph/morph.component";
-import {MarkdownPipe} from "./markdown.pipe";
+import {MarkdownPipe} from "./utils/markdown.pipe";
 import {ErrorComponent} from "./error/error.component";
+import {PdfService} from "./pdf-export/pdf.service";
 
 @Component({
   selector: 'app-root',
@@ -31,6 +32,17 @@ import {ErrorComponent} from "./error/error.component";
         }
       </div>
 
+      <div class="drop-up-container">
+        <ul class="export-menu">
+          <li><a (click)="exportToPdf()">Export to PDF</a></li>
+        </ul>
+        <button class="drop-up-menu" aria-label="Drop-up menu">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" d="M11.47 7.72a.75.75 0 011.06 0l7.5 7.5a.75.75 0 11-1.06 1.06L12 9.31l-6.97 6.97a.75.75 0 01-1.06-1.06l7.5-7.5z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+
       <form #form="ngForm" (ngSubmit)="sendMessage(form, form.value.message)">
         <input
           name="message"
@@ -49,11 +61,11 @@ import {ErrorComponent} from "./error/error.component";
 })
 export class AppComponent implements OnDestroy {
   private readonly messageService = inject(MessageService);
-  readonly threadId = this.messageService.threadId;
+  private readonly pdfService = inject(PdfService);
 
+  readonly threadId = this.messageService.threadId;
   readonly messages = this.messageService.messages;
   readonly generatingInProgress = this.messageService.generatingInProgress;
-
   protected readonly showStartScreen = computed(() => this.messageService.isFirstVisit());
 
   private readonly scrollEffect = effect(() => {
@@ -76,6 +88,10 @@ export class AppComponent implements OnDestroy {
   sendMessage(form: NgForm, messageText: string): void {
     this.messageService.sendMessage(messageText, this.threadId());
     form.resetForm();
+  }
+
+  exportToPdf() {
+    this.pdfService.exportToPdf(this.messages());
   }
 
   ngOnDestroy(): void {

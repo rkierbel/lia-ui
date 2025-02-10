@@ -1,6 +1,6 @@
 import {Component, EventEmitter, inject, Output} from "@angular/core";
 import anime from "animejs";
-import {LanguageService} from "../language.service";
+import {LanguageService} from "../i18n/language.service";
 
 export type Language = 'en' | 'fr' | 'nl';
 

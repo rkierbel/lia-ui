@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {langMap, UserLang} from "./interface/user-lang";
-import {ErrorType} from "./interface/error";
+import {langMap, UserLang} from "../interface/user-lang";
+import {ErrorType} from "../interface/error";
 
 @Injectable({
   providedIn: 'root'

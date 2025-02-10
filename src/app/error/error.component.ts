@@ -1,6 +1,6 @@
 import {Component, inject} from '@angular/core';
-import {ErrorService} from "../error.service";
-import {LanguageService} from "../language.service";
+import {ErrorService} from "./error.service";
+import {LanguageService} from "../i18n/language.service";
 import {ErrorType} from "../interface/error";
 
 @Component({

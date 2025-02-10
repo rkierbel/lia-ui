@@ -10,7 +10,7 @@ import {
 import {Message} from "../interface/message";
 import {catchError, filter, map, Observable, retry, startWith} from "rxjs";
 import {Language} from "../morph/morph.component";
-import {ErrorService} from "../error.service";
+import {ErrorService} from "../error/error.service";
 import {environment} from "../../environments/environment.development";
 
 @Injectable({

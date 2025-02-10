@@ -1,5 +1,5 @@
 import {Injectable, signal} from '@angular/core';
-import {ErrorState, ErrorType} from "./interface/error";
+import {ErrorState, ErrorType} from "../interface/error";
 
 
 @Injectable({
