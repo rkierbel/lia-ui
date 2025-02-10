@@ -16,8 +16,11 @@ export class PdfService {
     messages
       .filter(m => m.text.trim().length > 0)
       .forEach(message => {
+        const cleanedText = this.removeMarkup(message.text).trim();
+        if (!cleanedText) return;
+
         const prefix = message.fromUser ? 'HUMAN: ' : 'LIA: ';
-        const text = prefix + message.text;
+        const text = prefix + cleanedText;
         const lines = doc.splitTextToSize(text, 180);
 
         lines.forEach((line: string) => {
@@ -26,7 +29,7 @@ export class PdfService {
             yPosition = 20;
           }
 
-          doc.text(line, 15, yPosition);
+          doc.text(line.trim(), 15, yPosition);
           yPosition += lineHeight;
         });
 
@@ -35,4 +38,20 @@ export class PdfService {
 
     doc.save('conversation.pdf');
   }
+
+  private removeMarkup = (text: string): string => {
+    // Remove HTML tags
+    let cleaned = text.replace(/<[^>]*>?/gm, '');
+    // Remove Markdown formatting (headers, bold, italic, links, etc.)
+    cleaned = cleaned
+      .replace(/^#+\s+/gm, '')          // Headers
+      .replace(/\*\*|\_\_/g, '')        // Bold
+      .replace(/\*|\_/g, '')            // Italic
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')  // Links
+      .replace(/`{3}[\s\S]*?`{3}/gm, '') // Code blocks
+      .replace(/`/g, '')                // Inline code
+      .replace(/~{2}/g, '')             // Strikethrough
+      .replace(/>{1}/g, '');            // Blockquotes
+    return cleaned;
+  };
 }
