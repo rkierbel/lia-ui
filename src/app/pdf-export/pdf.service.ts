@@ -40,9 +40,7 @@ export class PdfService {
   }
 
   private removeMarkup = (text: string): string => {
-    // Remove HTML tags
     let cleaned = text.replace(/<[^>]*>?/gm, '');
-    // Remove Markdown formatting (headers, bold, italic, links, etc.)
     cleaned = cleaned
       .replace(/^#+\s+/gm, '')          // Headers
       .replace(/\*\*|\_\_/g, '')        // Bold
