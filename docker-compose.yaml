@@ -7,6 +7,8 @@ services:
     ports:
       - "${HOST_PORT:-4200}:${CONTAINER_PORT:-8080}"
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       - CONTAINER_PORT=${CONTAINER_PORT}
       - HOST=${HOST}
