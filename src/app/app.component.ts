@@ -13,7 +13,7 @@ import {PdfService} from "./pdf-export/pdf.service";
   standalone: true,
   imports: [NgClass, FormsModule, MorphComponent, NgIf, MarkdownPipe, ErrorComponent],
   template: `
-    <app-error />
+    <app-error/>
 
     @if (showStartScreen()) {
       <app-morph (start)="startConversation($event)"/>
@@ -33,12 +33,18 @@ import {PdfService} from "./pdf-export/pdf.service";
       </div>
 
       <div class="drop-up-container">
-        <ul class="export-menu">
+        <ul class="export-menu" [class.open]="isMenuOpen">
           <li><a (click)="exportToPdf()">Export to PDF</a></li>
+          <li><a (click)="endConversation()">End conversation</a></li>
         </ul>
-        <button class="drop-up-menu" aria-label="Drop-up menu">
+        <button class="drop-up-menu"
+                aria-label="Drop-up menu"
+                (click)="toggleMenu()"
+                (touchstart)="toggleMenu()">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path fill-rule="evenodd" d="M11.47 7.72a.75.75 0 011.06 0l7.5 7.5a.75.75 0 11-1.06 1.06L12 9.31l-6.97 6.97a.75.75 0 01-1.06-1.06l7.5-7.5z" clip-rule="evenodd" />
+            <path fill-rule="evenodd"
+                  d="M11.47 7.72a.75.75 0 011.06 0l7.5 7.5a.75.75 0 11-1.06 1.06L12 9.31l-6.97 6.97a.75.75 0 01-1.06-1.06l7.5-7.5z"
+                  clip-rule="evenodd"/>
           </svg>
         </button>
       </div>
@@ -63,6 +69,7 @@ export class AppComponent implements OnDestroy {
   private readonly messageService = inject(MessageService);
   private readonly pdfService = inject(PdfService);
 
+  protected isMenuOpen = false;
   readonly threadId = this.messageService.threadId;
   readonly messages = this.messageService.messages;
   readonly generatingInProgress = this.messageService.generatingInProgress;
@@ -92,6 +99,32 @@ export class AppComponent implements OnDestroy {
 
   exportToPdf() {
     this.pdfService.exportToPdf(this.messages());
+  }
+
+  endConversation(): void {
+    //reset signals, route back to lang selection
+  }
+
+  protected toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+    if (this.isMenuOpen) {
+      setTimeout(() => {
+        document.addEventListener('click', this.closeMenuOutside.bind(this));
+      }, 10);
+    }
+  }
+
+  private closeMenuOutside(event: MouseEvent) {
+    const container = document.querySelector('.drop-up-container');
+    if (!container?.contains(event.target as Node)) {
+      this.closeMenu();
+      document.removeEventListener('click', this.closeMenuOutside);
+    }
+  }
+
+  private closeMenu() {
+    this.isMenuOpen = false;
+    document.removeEventListener('click', this.closeMenuOutside);
   }
 
   ngOnDestroy(): void {

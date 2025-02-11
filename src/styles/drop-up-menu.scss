@@ -5,6 +5,16 @@
   height: 110px;
   width: 50px;
   z-index: 1000;
+
+  @media (max-width: 768px) {
+    bottom: 80px;
+    right: 15px;
+    height: auto;
+
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    gap: 10px;  }
 }
 
 .drop-up-menu {
@@ -22,9 +32,23 @@
   border: none;
   cursor: pointer;
 
+  &:hover {
+    background: #041122;
+    color: #fff;
+  }
+
   svg {
     width: 24px;
     height: 24px;
+  }
+
+  touch-action: manipulation;
+
+  @media (hover: hover) {
+    &:hover + .export-menu,
+    &:hover ~ .export-menu {
+      display: block;
+    }
   }
 }
 
@@ -39,6 +63,11 @@
   box-shadow: 0 0 5px rgba(#000, .15);
   display: none;
   z-index: 1001;
+
+  &.open {
+    display: block;
+    animation: fadeInUp .3s ease;
+  }
 
   li {
     list-style: none;
@@ -56,17 +85,30 @@
       }
     }
   }
+
+  @media (max-width: 768px) {
+    bottom: 65px;
+    position: relative;
+    right: auto;
+    width: max-content;
+
+    li a {
+      padding: 12px 15px;
+      transition: background 0.2s ease;
+
+      &:active {
+        background:#041122;
+        color: #fff;
+      }
+    }
+  }
 }
 
-.drop-up-container:hover .export-menu,
-.export-menu:hover {
-  display: block;
-  animation: fadeInUp .3s ease;
-}
-
-.drop-up-container:not(:hover) .export-menu {
-  display: none;
-  animation: fadeOutDown .3s ease;
+@media (hover: hover) {
+  .export-menu li a:hover {
+    background: #041122;
+    color: #fff;
+  }
 }
 
 @keyframes fadeOutDown {
