@@ -1,5 +1,5 @@
 export const environment = {
-  baseUrl: process.env["NG_BACKEND_URL"],
+  baseUrl: 'http://localhost:3003',
   production: false,
-  apiUrl: process.env["NG_BACKEND_URL"]
+  apiUrl: 'http://localhost:3003'
 };
