@@ -46,13 +46,6 @@
     -webkit-tap-highlight-color: transparent;
     touch-action: none;
   }
-
-  @media (hover: hover) {
-    &:hover + .export-menu,
-    &:hover ~ .export-menu {
-      display: block;
-    }
-  }
 }
 
 .export-menu {

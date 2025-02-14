@@ -39,7 +39,6 @@ import {PdfService} from "./pdf-export/pdf.service";
         </ul>
         <button class="drop-up-menu"
                 aria-label="Drop-up menu"
-                (touchstart)="$event.preventDefault()"
                 (click)="toggleMenu($event)">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
             <path fill-rule="evenodd"
@@ -127,10 +126,6 @@ export class AppComponent implements OnDestroy {
     this.isMenuOpen = !this.isMenuOpen;
 
     if (this.isMenuOpen) {
-      // Remove existing listeners first to prevent duplicates
-      this.closeMenu();
-
-      // Add new listeners
       setTimeout(() => {
         document.addEventListener('click', this.closeMenuOutside);
         document.addEventListener('touchend', this.closeMenuOutside);
