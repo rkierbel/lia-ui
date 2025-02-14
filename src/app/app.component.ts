@@ -102,7 +102,13 @@ export class AppComponent implements OnDestroy {
   }
 
   endConversation(): void {
-    //reset signals, route back to lang selection
+    this.messageService['_messages'].set([]);
+    this.messageService['_completeMessages'].set([]);
+    this.messageService['_threadId'].set('');
+    this.messageService['_generatingInProgress'].set(false);
+    this.messageService['_isFirstVisit'].set(true);
+
+    this.isMenuOpen = false;
   }
 
   protected toggleMenu() {
