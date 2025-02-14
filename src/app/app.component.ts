@@ -39,8 +39,8 @@ import {PdfService} from "./pdf-export/pdf.service";
         </ul>
         <button class="drop-up-menu"
                 aria-label="Drop-up menu"
-                (click)="toggleMenu($event)"
-                (touchstart)="toggleMenu()">
+                (touchstart)="$event.preventDefault()"
+                (click)="toggleMenu($event)">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
             <path fill-rule="evenodd"
                   d="M11.47 7.72a.75.75 0 011.06 0l7.5 7.5a.75.75 0 11-1.06 1.06L12 9.31l-6.97 6.97a.75.75 0 01-1.06-1.06l7.5-7.5z"
@@ -111,21 +111,21 @@ export class AppComponent implements OnDestroy {
     this.isMenuOpen = false;
   }
 
-  protected toggleMenu(event?: Event) {
+  protected toggleMenu(event: Event) {
     // Prevent any default behavior
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+    event.preventDefault();
+    event.stopPropagation();
 
     this.isMenuOpen = !this.isMenuOpen;
 
     if (this.isMenuOpen) {
-      // Small delay to ensure the event listeners don't interfere with the current click
+      // Add event listeners after a small delay to avoid immediate trigger
       setTimeout(() => {
-        document.addEventListener('click', this.closeMenuOutside.bind(this));
-        document.addEventListener('touchstart', this.closeMenuOutside.bind(this));
-      }, 0);
+        document.addEventListener('click', this.closeMenuOutside);
+        document.addEventListener('touchend', this.closeMenuOutside);
+      }, 10);
+    } else {
+      this.closeMenu();
     }
   }
 
@@ -133,6 +133,7 @@ export class AppComponent implements OnDestroy {
     const container = document.querySelector('.drop-up-container');
     const target = event.target as Node;
 
+    // If clicking/tapping outside the container
     if (!container?.contains(target)) {
       this.closeMenu();
     }
@@ -141,10 +142,11 @@ export class AppComponent implements OnDestroy {
   private closeMenu() {
     this.isMenuOpen = false;
     document.removeEventListener('click', this.closeMenuOutside);
-    document.removeEventListener('touchstart', this.closeMenuOutside);
+    document.removeEventListener('touchend', this.closeMenuOutside);
   }
 
   ngOnDestroy(): void {
     this.scrollEffect.destroy();
+    this.closeMenu();
   }
 }
