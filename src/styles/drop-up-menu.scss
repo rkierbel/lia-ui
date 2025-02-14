@@ -42,7 +42,10 @@
     height: 24px;
   }
 
-  touch-action: manipulation;
+  @media (max-width: 768px) {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none;
+  }
 
   @media (hover: hover) {
     &:hover + .export-menu,

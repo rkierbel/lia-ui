@@ -39,7 +39,7 @@ import {PdfService} from "./pdf-export/pdf.service";
         </ul>
         <button class="drop-up-menu"
                 aria-label="Drop-up menu"
-                (click)="toggleMenu()"
+                (click)="toggleMenu($event)"
                 (touchstart)="toggleMenu()">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
             <path fill-rule="evenodd"
@@ -111,26 +111,37 @@ export class AppComponent implements OnDestroy {
     this.isMenuOpen = false;
   }
 
-  protected toggleMenu() {
+  protected toggleMenu(event?: Event) {
+    // Prevent any default behavior
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
     this.isMenuOpen = !this.isMenuOpen;
+
     if (this.isMenuOpen) {
+      // Small delay to ensure the event listeners don't interfere with the current click
       setTimeout(() => {
         document.addEventListener('click', this.closeMenuOutside.bind(this));
-      }, 10);
+        document.addEventListener('touchstart', this.closeMenuOutside.bind(this));
+      }, 0);
     }
   }
 
-  private closeMenuOutside(event: MouseEvent) {
+  private closeMenuOutside(event: MouseEvent | TouchEvent) {
     const container = document.querySelector('.drop-up-container');
-    if (!container?.contains(event.target as Node)) {
+    const target = event.target as Node;
+
+    if (!container?.contains(target)) {
       this.closeMenu();
-      document.removeEventListener('click', this.closeMenuOutside);
     }
   }
 
   private closeMenu() {
     this.isMenuOpen = false;
     document.removeEventListener('click', this.closeMenuOutside);
+    document.removeEventListener('touchstart', this.closeMenuOutside);
   }
 
   ngOnDestroy(): void {
