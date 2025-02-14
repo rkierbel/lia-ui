@@ -40,6 +40,12 @@ export type Language = 'en' | 'fr' | 'nl';
       display: flex;
       gap: 2rem;
       padding: 1rem;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 2rem;
+      }
     }
 
     .morph-element {
@@ -53,6 +59,11 @@ export type Language = 'en' | 'fr' | 'nl';
       align-items: center;
       cursor: pointer;
       transition: transform 0.2s ease;
+
+      @media (max-width: 768px) {
+        width: 100px;
+        height: 100px;
+      }
     }
 
     .morph-element:hover {
@@ -66,6 +77,10 @@ export type Language = 'en' | 'fr' | 'nl';
       font-weight: 600;
       pointer-events: none;
       opacity: 1;
+
+      @media (max-width: 768px) {
+        font-size: 1.1rem;
+      }
     }
   `]
 })
