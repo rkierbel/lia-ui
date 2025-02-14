@@ -111,30 +111,31 @@ export class AppComponent implements OnDestroy {
     this.isMenuOpen = false;
   }
 
+  private closeMenuOutside = (event: MouseEvent | TouchEvent) => {
+    const container = document.querySelector('.drop-up-container');
+    const target = event.target as Node;
+
+    if (!container?.contains(target)) {
+      this.closeMenu();
+    }
+  };
+
   protected toggleMenu(event: Event) {
-    // Prevent any default behavior
     event.preventDefault();
     event.stopPropagation();
 
     this.isMenuOpen = !this.isMenuOpen;
 
     if (this.isMenuOpen) {
-      // Add event listeners after a small delay to avoid immediate trigger
+      // Remove existing listeners first to prevent duplicates
+      this.closeMenu();
+
+      // Add new listeners
       setTimeout(() => {
         document.addEventListener('click', this.closeMenuOutside);
         document.addEventListener('touchend', this.closeMenuOutside);
       }, 10);
     } else {
-      this.closeMenu();
-    }
-  }
-
-  private closeMenuOutside(event: MouseEvent | TouchEvent) {
-    const container = document.querySelector('.drop-up-container');
-    const target = event.target as Node;
-
-    // If clicking/tapping outside the container
-    if (!container?.contains(target)) {
       this.closeMenu();
     }
   }
