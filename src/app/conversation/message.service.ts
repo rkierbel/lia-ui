@@ -2,13 +2,13 @@ import {inject, Injectable, signal} from '@angular/core';
 import {
   HttpClient,
   HttpDownloadProgressEvent,
-  HttpErrorResponse,
   HttpEvent,
   HttpEventType,
+  HttpHeaderResponse,
   HttpResponse
 } from "@angular/common/http";
 import {Message} from "../interface/message";
-import {catchError, filter, map, Observable, retry, startWith} from "rxjs";
+import {filter, map, Observable, retry, startWith, tap} from "rxjs";
 import {Language} from "../morph/morph.component";
 import {ErrorService} from "../error/error.service";
 import {environment} from "../../environments/environment.development";
@@ -19,7 +19,6 @@ import {environment} from "../../environments/environment.development";
 export class MessageService {
   private readonly http = inject(HttpClient);
   private readonly errorService = inject(ErrorService);
-  private hasError = false;
 
   private readonly _threadId = signal<string>('');
   private readonly _isFirstVisit = signal<boolean>(true);
@@ -59,6 +58,7 @@ export class MessageService {
       },
 
       error: (error) => {
+        console.log("Error caught in message stream: ", error);
         this._generatingInProgress.set(false);
         this._messages.set(this._completeMessages());
         this.handleError(error);
@@ -69,7 +69,6 @@ export class MessageService {
   private getChatResponseStream(prompt: string,
                                 threadId: string,
                                 language?: Language): Observable<Message> {
-    this.hasError = false;
     const id = window.crypto.randomUUID();
 
     return this.http
@@ -90,14 +89,13 @@ export class MessageService {
           delay: 1000,
           resetOnSuccess: true
         }),
-        catchError((error: HttpErrorResponse) => {
-          this.hasError = true;
-          this._generatingInProgress.set(false);
-          throw this.transformError(error);
+        tap(e =>{
+          if (e instanceof HttpHeaderResponse && e.status >= 400) {
+            throw this.errorService.transformError(e.status);
+          }
         }),
         filter(
           (event: HttpEvent<string>): boolean =>
-            !this.hasError &&
             event.type === HttpEventType.DownloadProgress ||
             event.type === HttpEventType.Response
         ),
@@ -128,25 +126,6 @@ export class MessageService {
 
   completeFirstVisit(): void {
     this._isFirstVisit.set(false);
-  }
-
-  private transformError(error: HttpErrorResponse): Error {
-    switch (error.status) {
-      case 400:
-        return new Error('invalid_request');
-      case 401:
-        return new Error('unauthorized');
-      case 403:
-        return new Error('forbidden');
-      case 404:
-        return new Error('not_found');
-      case 429:
-        return new Error('too_many_requests');
-      case 500:
-        return new Error('server_error');
-      default:
-        return new Error('unexpected');
-    }
   }
 
   private handleError(error: any): void {

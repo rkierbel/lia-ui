@@ -1,4 +1,4 @@
-export type ErrorType =
+export type FrontErrorType =
   "invalid_request"
   | "unauthorized"
   | "forbidden"
@@ -7,8 +7,11 @@ export type ErrorType =
   | "server_error"
   | "unexpected";
 
-export interface ErrorState {
-  messageKey?: ErrorType;
+export class FrontError extends Error{
   params?: Record<string, string>;
-  show: boolean;
+  show: boolean = true;
+
+  public constructor(public messageKey?: FrontErrorType) {
+    super(messageKey as string);
+  }
 }

@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {ErrorService} from "./error.service";
 import {LanguageService} from "../i18n/language.service";
-import {ErrorType} from "../interface/error";
+import {FrontErrorType} from "../interface/error";
 
 @Component({
   selector: 'app-error',
@@ -100,7 +100,7 @@ export class ErrorComponent {
   protected readonly errorService = inject(ErrorService);
   readonly langService = inject(LanguageService);
 
-  translateError(messageKey: ErrorType): string {
+  translateError(messageKey: FrontErrorType): string {
     const activeLang = this.langService.getActiveLang();
     return this.langService.getTranslatedError(activeLang, messageKey);
   }
