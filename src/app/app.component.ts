@@ -7,6 +7,7 @@ import {Language, MorphComponent} from "./morph/morph.component";
 import {MarkdownPipe} from "./utils/markdown.pipe";
 import {ErrorComponent} from "./error/error.component";
 import {PdfService} from "./pdf-export/pdf.service";
+import {LanguageService} from "./i18n/language.service";
 
 @Component({
   selector: 'app-root',
@@ -34,8 +35,8 @@ import {PdfService} from "./pdf-export/pdf.service";
 
       <div class="drop-up-container">
         <ul class="export-menu" [class.open]="isMenuOpen">
-          <li><a (click)="exportToPdf()">Export to PDF</a></li>
-          <li><a (click)="endConversation()">End conversation</a></li>
+          <li><a (click)="exportToPdf()">{{ this.langService.getTranslatedFeature('export_to_pdf') }}</a></li>
+          <li><a (click)="endConversation()">{{ this.langService.getTranslatedFeature('end_conversation') }}</a></li>
         </ul>
         <button class="drop-up-menu"
                 aria-label="Drop-up menu"
@@ -51,14 +52,14 @@ import {PdfService} from "./pdf-export/pdf.service";
       <form #form="ngForm" (ngSubmit)="sendMessage(form, form.value.message)">
         <input
           name="message"
-          placeholder="Type a message"
           ngModel
           required
           autofocus
+          [placeholder]="this.langService.getTranslatedFeature('type_message')"
           [disabled]="generatingInProgress()"
         />
         <button type="submit" [disabled]="generatingInProgress() || form.invalid">
-          Send
+          {{ this.langService.getTranslatedFeature('send_message') }}
         </button>
       </form>
     }
@@ -67,6 +68,7 @@ import {PdfService} from "./pdf-export/pdf.service";
 export class AppComponent implements OnDestroy {
   private readonly messageService = inject(MessageService);
   private readonly pdfService = inject(PdfService);
+  protected readonly langService = inject(LanguageService);
 
   protected isMenuOpen = false;
   readonly threadId = this.messageService.threadId;

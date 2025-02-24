@@ -13,7 +13,7 @@ import {FrontErrorType} from "../interface/error";
           <div class="error-modal" role="alertdialog" aria-modal="true">
             <div class="error-content">
               <div class="error-icon">⚠️</div>
-              <p>{{ this.translateError(error.messageKey) }}</p>
+              <p>{{ this.langService.getTranslatedError(error.messageKey) }}</p>
               <button
                 (click)="errorService.hideError()"
                 aria-label="Close error message"
@@ -99,9 +99,4 @@ import {FrontErrorType} from "../interface/error";
 export class ErrorComponent {
   protected readonly errorService = inject(ErrorService);
   readonly langService = inject(LanguageService);
-
-  translateError(messageKey: FrontErrorType): string {
-    const activeLang = this.langService.getActiveLang();
-    return this.langService.getTranslatedError(activeLang, messageKey);
-  }
 }

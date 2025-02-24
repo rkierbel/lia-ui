@@ -1,24 +1,30 @@
 import {Injectable} from '@angular/core';
-import {langMap, UserLang} from "../interface/user-lang";
 import {FrontErrorType} from "../interface/error";
+import {langMap, LangMap} from "./lang-map";
+import {Feature} from "../interface/feature";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LanguageService {
-  private activeLang: UserLang = 'en';
+  private activeLang: LangMap = 'en';
 
-  constructor() { }
+  constructor() {
+  }
 
-  public setActiveLang(lang: UserLang) {
+  public setActiveLang(lang: LangMap) {
     this.activeLang = lang;
   }
 
-  public getActiveLang() {
+  private getActiveLang() {
     return this.activeLang;
   }
 
-  public getTranslatedError(lang: UserLang, errorType: FrontErrorType): string {
-    return langMap[lang].errors[errorType];
+  public getTranslatedError(errorType: FrontErrorType): string {
+    return langMap[this.getActiveLang()].errors[errorType];
+  }
+
+  public getTranslatedFeature(name: Feature): string {
+    return langMap[this.getActiveLang()].feature[name];
   }
 }
